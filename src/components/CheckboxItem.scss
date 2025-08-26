@@ -1,0 +1,46 @@
+@import '@/styles/variables.scss';
+
+.check-list {
+  background: white;
+  border-radius: 50px;
+  padding: 16px;
+  height: 50px;
+  box-sizing: border-box;
+  border: 2px solid $gray900;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+
+  .item-title {
+    font-size: 16px;
+    font-weight: 400;
+    color: $gray900;
+  }
+
+  &.active {
+    text-decoration: line-through;
+    text-decoration-color: black;
+    text-decoration-thickness: 1px;
+    background-color: $violet100;
+  }
+
+  &.large {
+    justify-content: center;
+    text-decoration: underline;
+    height: 64px;
+
+    .item-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    &.active {
+      background-color: $violet200;
+    }
+  }
+
+
+}

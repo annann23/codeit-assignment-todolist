@@ -41,40 +41,6 @@
     flex-direction: column;
     gap: 16px;
     margin-top: 12px;
-    
-    .item-card {
-      background: white;
-      border-radius: 50px;
-      padding: 16px;
-      height: 50px;
-      box-sizing: border-box;
-      border: 2px solid $gray900;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-      .item-content {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        
-        .item-title {
-          font-size: 16px;
-          font-weight: 400;
-          color: $gray800;
-        }        
-      }
-    }
-  }
-
-  .done-section {
-    .item-card {
-      background: $violet100;
-      text-decoration: line-through;
-      text-decoration-color: black;
-      text-decoration-thickness: 1px;
-    }
   }
 }
 

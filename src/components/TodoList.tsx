@@ -2,15 +2,17 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import './TodoList.scss';
 import Image from 'next/image'
+
+import CheckList from './CheckboxItem';
+import { Item } from '@/utill/types';
+import './TodoList.scss';
+
+
 import todoIcon from '../assets/todo.svg';
 import doneIcon from '../assets/done.svg';
 import emptyTodo from '../assets/empty_todo_large.svg';
 import emptyDone from '../assets/empty_done_large.svg';
-import checkboxIcon from '../assets/checkbox.svg';
-import checkboxActiveIcon from '../assets/checkbox-active.svg';
-import { Item } from './MainPage';
 
 interface TodoListProps {
   items: Item[];
@@ -24,8 +26,7 @@ function TodoList({ items, onItemStatusChange }: TodoListProps) {
     router.push(`/items/${itemId}`);
   };
 
-  const handleCheckboxClick = (e: React.MouseEvent, itemId: string, currentStatus: boolean) => {
-    e.stopPropagation();
+  const handleCheckboxClick = (itemId: string, currentStatus: boolean) => {
     const newStatus = !currentStatus;
     onItemStatusChange(itemId, newStatus);
   };
@@ -43,27 +44,15 @@ function TodoList({ items, onItemStatusChange }: TodoListProps) {
         ) : (
           <div className="items-list">
             {items.filter(item => !item.isCompleted).map((item) => (
-              <div 
+              <CheckList 
                 key={item.id} 
-                className="item-card todo"
-                onClick={() => handleItemClick(item.id)}
-              >
-                <div className="item-content">
-                  <div 
-                    className="checkbox-wrapper"
-                    onClick={(e) => handleCheckboxClick(e, item.id, item.isCompleted)}
-                  >
-                    <Image 
-                      src={checkboxIcon} 
-                      alt='check' 
-                      className='checkbox-icon'
-                      width={20}
-                      height={20}
-                    />
-                  </div>
-                  <div className="item-title">{item.name}</div>
-                </div>
-              </div>
+                className="item"
+                text={item.name}
+                isLarge={false}
+                isActive={false}
+                onClickItem={() => handleItemClick(item.id)}
+                onClickCheckbox={(e) => handleCheckboxClick(item.id, item.isCompleted)}
+              />
             ))}
           </div>
         )}
@@ -80,27 +69,15 @@ function TodoList({ items, onItemStatusChange }: TodoListProps) {
         ) : (
           <div className="items-list">
             {items.filter(item => item.isCompleted).map((item) => (
-              <div 
-                key={item.id} 
-                className="item-card done"
-                onClick={() => handleItemClick(item.id)}
-              >
-                <div className="item-content">
-                  <div 
-                    className="checkbox-wrapper active"
-                    onClick={(e) => handleCheckboxClick(e, item.id, item.isCompleted)}
-                  >
-                    <Image 
-                      src={checkboxActiveIcon} 
-                      alt='check-active' 
-                      className='checkbox-icon'
-                      width={20}
-                      height={20}
-                    />
-                  </div>
-                  <div className="item-title">{item.name}</div>
-                </div>
-              </div>
+              <CheckList 
+                key={item.id}
+                className="item"
+                text={item.name}
+                isLarge={false}
+                isActive={true}
+                onClickItem={() => handleItemClick(item.id)}
+                onClickCheckbox={(e) => handleCheckboxClick(item.id, item.isCompleted)}
+              />  
             ))}
           </div>
         )}
