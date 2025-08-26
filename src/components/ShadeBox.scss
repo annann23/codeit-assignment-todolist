@@ -1,0 +1,11 @@
+@import '../styles/variables';
+
+.shade-box {
+  height: 56px;
+  border-radius: 56px;
+  padding: 17px 24px;
+  border: 2px solid $gray900;
+  box-shadow: 4px 3.5px 0 0 $gray900;
+  background: $gray100;
+}
+

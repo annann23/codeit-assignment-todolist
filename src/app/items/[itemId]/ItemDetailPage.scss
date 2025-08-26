@@ -1,0 +1,13 @@
+@import '@/styles/variables';
+
+.item-detail-page {
+  padding: 24px 0;
+  min-height: 100vh;
+  background-color: $gray100;
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+}
