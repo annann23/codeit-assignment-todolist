@@ -3,7 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import './ItemDetailPage.scss';
+import { colors } from '@/styles/colors';
+import PlusIcon from '@/components/icons/PlusIcon';
+import Image from 'next/image';
 import { Item } from '@/utill/types';
+import checkboxIcon from '@/assets/checkbox.svg';
+import imageIcon from '@/assets/img_icon.svg';
+import CheckList from '@/components/CheckboxItem';
 
 export default function ItemDetailPage() {
   const params = useParams();
@@ -35,7 +41,6 @@ export default function ItemDetailPage() {
     }
   }
 
-
   async function patchItem() {
     try{
       await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
@@ -56,11 +61,41 @@ export default function ItemDetailPage() {
     getItemDetail();
   }, []);
 
+  if (!item) return null;
   return (
     <div className="item-detail-page">
       <div className="container">    
-        <div>{item?.memo}</div>   
-        <div>{item?.name}</div>
+        <CheckList
+          text={item?.name}
+          className='item-detail-name'
+          isLarge={true}
+          isActive={item?.isCompleted}
+          onClickItem={() => {}}
+          onClickCheckbox={() => {}}
+        />
+        <div className='item-content-wrapper'>  
+          <div className='item-image'>
+            {item?.imageUrl ? (
+              <img src={item.imageUrl} alt='item-image' width={100} height={100}/> 
+            ) : (
+              <div className='image-empty-box'>
+                <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
+                <button className='image-add-button'>
+                <PlusIcon 
+                  width={18} 
+                  height={18} 
+                  strokeColor={colors.gray500}
+                  className='plus-icon'
+                />
+                </button>
+              </div>
+            )}
+          </div>
+          <div className='item-memo'>
+            <span className='item-memo-title'>Memo</span>
+            <textarea className='item-memo-input' value={item?.memo}/>  
+          </div> 
+        </div>  
       </div>
     </div>
   );
