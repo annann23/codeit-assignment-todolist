@@ -26,7 +26,7 @@
 
       .item-memo {
         font-size: 16px;
-        width: 100%;
+        width: 588px;
         height: 311px;
         background-image: url("../../../assets/memo.png");
         padding: 24px 16px;
@@ -53,27 +53,56 @@
       }
 
       .item-image {
-        width: 100%;
+        width: 384px;
 
         .image-empty-box {
+          width: 100%;
           background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23CBD5E1FF' stroke-width='4' stroke-dasharray='3%2c 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
           border-radius: 24px;
           height: 311px;
           width: 100%;
           background-color: $gray100;
           position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
       
           .image-add-button {
             width: 64px;
             height: 64px;
             position: absolute;
-            bottom: 0;
-            right: 0;
+            bottom: 16px;
+            right: 16px;
             background-color: $gray200;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+        }
+
+        .item-image-box {
+          width: 384px;
+          height: 311px;
+          border-radius: 24px;
+          position: relative;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
+
+          .edit-button {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba($gray900, 0.5);
+            border: 2px solid $gray900;
+            border-radius: 50%;
+            cursor: pointer;
           }
         }
       }
@@ -91,6 +120,7 @@
         align-items: center;
         justify-content: center;
         gap: 4px;
+        cursor: pointer;
 
         .button-text {
           position: relative;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import './ItemDetailPage.scss';
 import { colors } from '@/styles/colors';
@@ -11,25 +11,95 @@ import imageIcon from '@/assets/img_icon.svg';
 import CheckboxItem from '@/components/CheckboxItem';
 import ShadeBox from '@/components/ShadeBox';
 import checkIcon from '@/assets/check.svg';
-import plusIcon from '@/assets/plus.svg';
+import editIcon from '@/assets/edit.svg';
 
 export default function ItemDetailPage() {
   const params = useParams();
   const router = useRouter();
   const itemId = params.itemId as string;
   const [item, setItem] = useState<Item | null>(null);
+  const [originalItem, setOriginalItem] = useState<Item | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   async function getItemDetail() {
     try{
       const response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`);
       const data = await response.json();
       setItem(data);
+      setOriginalItem(data);
     }catch(error){
       console.error('Error fetching item detail:', error);
-      alert('요청하신 TODO를 찾을 수 없습니다. 다시 시도해주세요.');
+      alert('요청하신 페이지를 찾을 수 없습니다. 다시 시도해주세요.');
       router.push('/');
     }
   }
+
+  // 수정사항이 있는지 확인하는 함수
+  const hasChanges = () => {
+    if (!originalItem || !item) return false;
+    
+    return (
+      originalItem.imageUrl !== item.imageUrl ||
+      originalItem.isCompleted !== item.isCompleted ||
+      originalItem.memo !== item.memo
+    );
+  };
+
+  const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (item) {
+      setItem({
+        ...item,
+        memo: e.target.value
+      });
+    }
+  };
+
+  const imageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('파일 크기는 5MB 이하여야 합니다.');
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드 가능합니다.');
+      return;
+    }
+  
+    if (!/^[a-zA-Z]+\.(png|jpg|jpeg|gif|webp)$/i.test(file.name)) {
+      alert('이미지 파일명은 영문만 허용되며, 지원되는 이미지 확장자(.png, .jpg, .jpeg, .gif, .webp)가 필요합니다.');
+      return;
+    }
+
+    try {
+      // FormData 생성 (multipart/form-data 형식)
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/images/upload`, {
+        method: 'POST',
+        body: formData, // FormData 사용
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data. url);
+      
+      setItem(prevItem => prevItem ? { ...prevItem, imageUrl: data.url } : null);      
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  const clickImageAddButton = () => {
+    fileInputRef.current?.click();
+  };
 
   async function deleteItem() {
     try{
@@ -44,17 +114,29 @@ export default function ItemDetailPage() {
   }
 
   async function patchItem() {
+    if (!item) return;
+    
     try{
       await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({name: item?.name, memo: item?.memo, imageUrl: item?.imageUrl, isCompleted: item?.isCompleted}),
+        body: JSON.stringify({
+          name: item.name, 
+          memo: item.memo, 
+          imageUrl: item.imageUrl, 
+          isCompleted: item.isCompleted
+        }),
       });
+      
+      // 수정 완료 후 원본 데이터 업데이트
+      setOriginalItem(item);
+      
+      alert('수정이 완료되었습니다!');
       router.push('/');
     }catch(error){
-      console.error('Error deleting item:', error);
+      console.error('Error updating item:', error);
       alert('수정에 실패했습니다. 다시 시도해주세요.');
     }
   }
@@ -78,28 +160,49 @@ export default function ItemDetailPage() {
         <div className='item-content-wrapper'>  
           <div className='item-image'>
             {item?.imageUrl ? (
-              <img src={item.imageUrl} alt='item-image' width={100} height={100}/> 
+              <div className='item-image-box' style={{backgroundImage: `url(${item.imageUrl})`}}>
+                <div className='edit-button'><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
+              </div>
             ) : (
               <div className='image-empty-box'>
                 <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
-                <button className='image-add-button'>
-                <PlusIcon 
-                  width={18} 
-                  height={18} 
-                  strokeColor={colors.gray500}
-                  className='plus-icon'
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={imageUpload}
+                  style={{ display: 'none' }}
                 />
+                <button 
+                  className='image-add-button'
+                  onClick={clickImageAddButton}
+                  type="button"
+                >
+                  <PlusIcon 
+                    width={18} 
+                    height={18} 
+                    strokeColor={colors.gray500}
+                    className='plus-icon'
+                  />
                 </button>
               </div>
             )}
           </div>
           <div className='item-memo'>
             <span className='item-memo-title'>Memo</span>
-            <textarea className='item-memo-input' value={item?.memo}/>  
+            <textarea 
+              className='item-memo-input' 
+              value={item?.memo || ''}
+              onChange={handleMemoChange}
+            />  
           </div> 
-        </div>  
-        <div className='button-wrapper'>
-          <ShadeBox class='button edit-button' onClick={patchItem} backgroundColor={colors.buttonDeactive}>
+        </div>
+        <div className="button-wrapper">
+          <ShadeBox 
+            class={`edit-button button`}
+            onClick={patchItem}
+            backgroundColor = {hasChanges() ? colors.buttonEdit : colors.buttonDeactive}
+          >
             <Image src={checkIcon} alt='check-icon' width={16} height={16}/>
             <span className='button-text'>수정 완료</span>
           </ShadeBox>
