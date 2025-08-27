@@ -102,7 +102,6 @@ export default function ItemDetailPage() {
       }
 
       const data = await response.json();
-      console.log(data. url);
       
       setItem(prevItem => prevItem ? { ...prevItem, imageUrl: data.url } : null);      
     } catch (error) {
