@@ -213,19 +213,18 @@ export default function ItemDetailPage() {
             </div> 
           </div>
           <div className="button-wrapper">
+            {/* 수정 완료 버튼 */}
+            <ShadeBox class={`edit-button button ${hasChanges() ? 'active' : ''}`} onClick={patchItem}>
+              <Image src={checkIcon} alt='check-icon' width={16} height={16}/>
+              <span className='button-text'>수정 완료</span>
+            </ShadeBox>
+
+            {/* 삭제 버튼 */}
+            <ShadeBox class='button delete-button' onClick={deleteItem}>
+              <PlusIcon className='delete-icon' width={16} height={16} strokeColor={colors.white}/>
+              <span className='button-text'>삭제하기</span>
+            </ShadeBox>
           </div>
-          <ShadeBox 
-            class={`edit-button button`}
-            onClick={patchItem}
-            backgroundColor = {hasChanges() ? colors.buttonEdit : colors.buttonDeactive}
-          >
-            <Image src={checkIcon} alt='check-icon' width={16} height={16}/>
-            <span className='button-text'>수정 완료</span>
-          </ShadeBox>
-          <ShadeBox class='button delete-button' onClick={deleteItem} backgroundColor={colors.buttonDelete} color={colors.white}>
-            <PlusIcon className='delete-icon' width={16} height={16} strokeColor={colors.white}/>
-            <span className='button-text'>삭제하기</span>
-          </ShadeBox>
         </div>
       </div>
     </div>

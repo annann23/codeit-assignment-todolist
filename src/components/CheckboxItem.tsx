@@ -1,11 +1,10 @@
 import React from 'react';
-import './ShadeBox.scss';
 import Image from 'next/image';
 import checkboxIcon from '@/assets/checkbox.svg';
 import checkboxActiveIcon from '@/assets/checkbox-active.svg';
 import './CheckboxItem.scss';
 
-interface ShadeBoxProps {
+interface CheckListProps {
   isLarge?: boolean;
   isActive?: boolean;
   className?: string;
@@ -21,7 +20,7 @@ function CheckList({ // 공통적으로 쓰이는 체크박스 포함된 컴포�
   className,
   onClickCheckbox,
   onClickItem
-}: ShadeBoxProps) {
+}: CheckListProps) {
 
   const handleCheckboxClick = (e: React.MouseEvent) => {
     e.stopPropagation();

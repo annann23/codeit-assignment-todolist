@@ -1,6 +1,8 @@
 @import '../styles/variables';
 
 .shade-box {
+  color: black;
+  background-color: $color-deactive;
   height: 56px;
   border-radius: 56px;
   padding: 17px 24px;

@@ -5,7 +5,6 @@ import React, {useEffect, useState} from 'react';
 import ShadeBox from '@/components/ShadeBox';
 import PlusIcon from '@/components/icons/PlusIcon';
 import TodoList from '@/components/TodoList';
-import { colors } from '@/styles/colors';
 import LoadingPage from '@/components/LoadingPage';
 import { Item } from '@/utill/types';
 
@@ -88,12 +87,6 @@ export default function MainPage() {
   }, []);
 
   return (
-          <ShadeBox //todo 추가 버튼 영역
-            class='add-button' 
-            backgroundColor={newTodo.trim() ? colors.violet600 : colors.gray200} 
-            color={newTodo.trim() ? 'white' : 'black'} 
-            onClick={() => postData(newTodo)}
-          >
     <div>
       <LoadingPage isLoading={isLoading} />
       <div className="main-page">
@@ -112,6 +105,10 @@ export default function MainPage() {
             </ShadeBox> 
 
             {/* TODO 추가 버튼 영역 */} 
+            <ShadeBox 
+              class= {`add-button ${newTodo.trim() ? 'active' : ''}`}
+              onClick={() => postData(newTodo)}
+            >
               <PlusIcon 
                 width={16} 
                 height={16} 
