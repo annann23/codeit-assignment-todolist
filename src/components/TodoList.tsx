@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 
-import CheckList from './CheckboxItem';
+import CheckboxItem from './CheckboxItem';
 import { Item } from '@/utill/types';
 import './TodoList.scss';
 
@@ -44,7 +44,7 @@ function TodoList({ items, onItemStatusChange }: TodoListProps) {
         ) : (
           <div className="items-list">
             {items.filter(item => !item.isCompleted).map((item) => (
-              <CheckList 
+              <CheckboxItem 
                 key={item.id} 
                 className="item"
                 text={item.name}
@@ -69,7 +69,7 @@ function TodoList({ items, onItemStatusChange }: TodoListProps) {
         ) : (
           <div className="items-list">
             {items.filter(item => item.isCompleted).map((item) => (
-              <CheckList 
+              <CheckboxItem 
                 key={item.id}
                 className="item"
                 text={item.name}

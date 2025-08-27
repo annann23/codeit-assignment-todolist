@@ -7,9 +7,8 @@ import { colors } from '@/styles/colors';
 import PlusIcon from '@/components/icons/PlusIcon';
 import Image from 'next/image';
 import { Item } from '@/utill/types';
-import checkboxIcon from '@/assets/checkbox.svg';
 import imageIcon from '@/assets/img_icon.svg';
-import CheckList from '@/components/CheckboxItem';
+import CheckboxItem from '@/components/CheckboxItem';
 
 export default function ItemDetailPage() {
   const params = useParams();
@@ -65,7 +64,7 @@ export default function ItemDetailPage() {
   return (
     <div className="item-detail-page">
       <div className="container">    
-        <CheckList
+        <CheckboxItem
           text={item?.name}
           className='item-detail-name'
           isLarge={true}
