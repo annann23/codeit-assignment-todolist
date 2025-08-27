@@ -197,7 +197,7 @@ export default function ItemDetailPage() { //상세 페이지 영역
                 ) : (
                   <div className='image-empty-box'>
                     <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
-                    <input
+                    <input //이미지 업로드 input(숨겨둠)
                       ref={fileInputRef}
                       type="file"
                       accept="image/*"
@@ -223,6 +223,7 @@ export default function ItemDetailPage() { //상세 페이지 영역
                 <span className='item-memo-title'>Memo</span>
                 <textarea 
                   className='item-memo-input' 
+                  name='memo-input'
                   value={item?.memo || ''}
                   onChange={handleMemoChange}
                 />  
