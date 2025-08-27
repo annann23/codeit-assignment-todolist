@@ -201,20 +201,20 @@ export default function ItemDetailPage() { //상세 페이지 영역
             </CheckboxItem>
             <div className='content-top'>  
               <div className='item-image'> {/* 이미지 영역 */}
+                <input //이미지 업로드 input(숨겨둠)
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={imageUpload}
+                  style={{ display: 'none' }}
+                />
                 {item?.imageUrl ? (
                   <div className='item-image-box' style={{backgroundImage: `url(${item.imageUrl})`}}>
-                    <div className='edit-button'><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
+                    <div className='edit-button' onClick={clickImageAddButton}><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
                   </div>
                 ) : (
                   <div className='image-empty-box'>
                     <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
-                    <input //이미지 업로드 input(숨겨둠)
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={imageUpload}
-                      style={{ display: 'none' }}
-                    />
                     <button 
                       className='image-add-button'
                       onClick={clickImageAddButton}
