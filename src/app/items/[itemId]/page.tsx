@@ -12,6 +12,7 @@ import CheckboxItem from '@/components/CheckboxItem';
 import ShadeBox from '@/components/ShadeBox';
 import checkIcon from '@/assets/check.svg';
 import editIcon from '@/assets/edit.svg';
+import LoadingPage from '@/components/LoadingPage';
 
 export default function ItemDetailPage() {
   const params = useParams();
@@ -20,9 +21,11 @@ export default function ItemDetailPage() {
   const [item, setItem] = useState<Item | null>(null);
   const [originalItem, setOriginalItem] = useState<Item | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
   
   async function getItemDetail() {
     try{
+      setIsLoading(true);
       const response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`);
       const data = await response.json();
       setItem(data);
@@ -31,11 +34,13 @@ export default function ItemDetailPage() {
       console.error('Error fetching item detail:', error);
       alert('요청하신 페이지를 찾을 수 없습니다. 다시 시도해주세요.');
       router.push('/');
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  // 수정사항이 있는지 확인하는 함수
-  const hasChanges = () => {
+
+  const hasChanges = () => {  // 수정사항이 있는지 확인하는 함수
     if (!originalItem || !item) return false;
     
     return (
@@ -45,7 +50,7 @@ export default function ItemDetailPage() {
     );
   };
 
-  const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => { //메모 수정 함수
     if (item) {
       setItem({
         ...item,
@@ -75,12 +80,14 @@ export default function ItemDetailPage() {
 
     try {
       // FormData 생성 (multipart/form-data 형식)
+      setIsLoading(true);
       const formData = new FormData();
       formData.append('image', file);
 
       const response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/images/upload`, {
         method: 'POST',
         body: formData, // FormData 사용
+        body: formData,
       });
 
       if (!response.ok) {
@@ -94,6 +101,8 @@ export default function ItemDetailPage() {
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -103,6 +112,7 @@ export default function ItemDetailPage() {
 
   async function deleteItem() {
     try{
+      setIsLoading(true);
       await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
         method: 'DELETE',
       });
@@ -110,6 +120,8 @@ export default function ItemDetailPage() {
     }catch(error){
       console.error('Error deleting item:', error);
       alert('TODO 삭제에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -118,6 +130,7 @@ export default function ItemDetailPage() {
     
     try{
       await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
+      setIsLoading(true);
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -138,6 +151,8 @@ export default function ItemDetailPage() {
     }catch(error){
       console.error('Error updating item:', error);
       alert('수정에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -147,57 +162,60 @@ export default function ItemDetailPage() {
 
   if (!item) return null;
   return (
-    <div className="item-detail-page">
-      <div className="container">    
-        <CheckboxItem
-          text={item?.name}
-          className='item-detail-name'
-          isLarge={true}
-          isActive={item?.isCompleted}
-          onClickItem={() => {}}
-          onClickCheckbox={() => {}}
-        />
-        <div className='item-content-wrapper'>  
-          <div className='item-image'>
-            {item?.imageUrl ? (
-              <div className='item-image-box' style={{backgroundImage: `url(${item.imageUrl})`}}>
-                <div className='edit-button'><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
-              </div>
-            ) : (
-              <div className='image-empty-box'>
-                <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={imageUpload}
-                  style={{ display: 'none' }}
-                />
-                <button 
-                  className='image-add-button'
-                  onClick={clickImageAddButton}
-                  type="button"
-                >
-                  <PlusIcon 
-                    width={18} 
-                    height={18} 
-                    strokeColor={colors.gray500}
-                    className='plus-icon'
+    <div>
+      <LoadingPage isLoading={isLoading} />
+      <div className="item-detail-page">
+        <div className="container">    
+          <CheckboxItem
+            text={item?.name}
+            className='item-detail-name'
+            isLarge={true}
+            isActive={item?.isCompleted}
+            onClickItem={() => {}}
+            onClickCheckbox={(e: React.MouseEvent) => handleStatusChange(!item.isCompleted)}
+          />
+          <div className='item-content-wrapper'>  
+            <div className='item-image'>
+              {item?.imageUrl ? (
+                <div className='item-image-box' style={{backgroundImage: `url(${item.imageUrl})`}}>
+                  <div className='edit-button'><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
+                </div>
+              ) : (
+                <div className='image-empty-box'>
+                  <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={imageUpload}
+                    style={{ display: 'none' }}
                   />
-                </button>
-              </div>
-            )}
+                  <button 
+                    className='image-add-button'
+                    onClick={clickImageAddButton}
+                    type="button"
+                  >
+                    <PlusIcon 
+                      width={18} 
+                      height={18} 
+                      strokeColor={colors.gray500}
+                      className='plus-icon'
+                    />
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className='item-memo'>
+              <span className='item-memo-title'>Memo</span>
+              <textarea 
+                className='item-memo-input' 
+                value={item?.memo || ''}
+                onChange={handleMemoChange}
+              />  
+            </div> 
           </div>
-          <div className='item-memo'>
-            <span className='item-memo-title'>Memo</span>
-            <textarea 
-              className='item-memo-input' 
-              value={item?.memo || ''}
-              onChange={handleMemoChange}
-            />  
-          </div> 
-        </div>
-        <div className="button-wrapper">
+          <div className="button-wrapper">
+          </div>
           <ShadeBox 
             class={`edit-button button`}
             onClick={patchItem}

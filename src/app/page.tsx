@@ -6,25 +6,31 @@ import ShadeBox from '@/components/ShadeBox';
 import PlusIcon from '@/components/icons/PlusIcon';
 import TodoList from '@/components/TodoList';
 import { colors } from '@/styles/colors';
+import LoadingPage from '@/components/LoadingPage';
 import { Item } from '@/utill/types';
 
 export default function MainPage() {
   const [newTodo, setNewTodo] = useState('');
   const [items, setItems] = useState<Item[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getData = async () => {
     try{
+      setIsLoading(true);
       const response = await fetch('https://assignment-todolist-api.vercel.app/api/annann5026/items');
       const data = await response.json();
       setItems(data);
     }catch(error){
       console.error('Error fetching data:', error);
       alert('todo 목록 조회에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
   const postData = async (name: string) => {
     try{
+      setIsLoading(true);
       const response = await fetch('https://assignment-todolist-api.vercel.app/api/annann5026/items', {
         method: 'POST',
         headers: {
@@ -39,11 +45,14 @@ export default function MainPage() {
     }catch(error){
       console.error('Error posting data:', error);
       alert('todo 등록에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
   const updateTodoStatus = async (itemId: string, isCompleted: boolean) => {
     try {
+      setIsLoading(true);
       const response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
         method: 'PATCH',
         headers: {
@@ -63,6 +72,8 @@ export default function MainPage() {
     } catch (error) {
       console.error('Error updating todo status:', error);
       alert('todo 상태 변경에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   }
   
@@ -77,34 +88,41 @@ export default function MainPage() {
   }, []);
 
   return (
-    <div className="main-page">
-      <div className='container'>
-        <div className="input-section">
-          <ShadeBox class="search-bar"> {/* 검색창 영역 */}
-            <input 
-              className='input-text' 
-              placeholder='할 일을 입력해주세요'
-              value={newTodo}
-              onChange={(e) => setNewTodo(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
-          </ShadeBox> 
           <ShadeBox //todo 추가 버튼 영역
             class='add-button' 
             backgroundColor={newTodo.trim() ? colors.violet600 : colors.gray200} 
             color={newTodo.trim() ? 'white' : 'black'} 
             onClick={() => postData(newTodo)}
           >
-            <PlusIcon 
-              width={16} 
-              height={16} 
-              strokeColor={newTodo.trim() ? 'white' : 'black'} 
-              className='plus-icon'
-            />
-            <span className='button-text'>추가하기</span>
-          </ShadeBox>
+    <div>
+      <LoadingPage isLoading={isLoading} />
+      <div className="main-page">
+        <div className='container'>
+          <div className="input-section">
+            
+            {/* 검색창 영역 */}
+            <ShadeBox class="search-bar"> 
+              <input 
+                className='input-text' 
+                placeholder='할 일을 입력해주세요'
+                value={newTodo}
+                onChange={(e) => setNewTodo(e.target.value)}
+                onKeyDown={handleKeyPress}
+              />
+            </ShadeBox> 
+
+            {/* TODO 추가 버튼 영역 */} 
+              <PlusIcon 
+                width={16} 
+                height={16} 
+                strokeColor={newTodo.trim() ? 'white' : 'black'} 
+                className='plus-icon'
+              />
+              <span className='button-text'>추가하기</span>
+            </ShadeBox>
+          </div>
+          <TodoList items={items} onItemStatusChange={updateTodoStatus} />
         </div>
-        <TodoList items={items} onItemStatusChange={updateTodoStatus} />
       </div>
     </div>
   );
