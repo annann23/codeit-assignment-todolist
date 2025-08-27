@@ -28,6 +28,8 @@ export default function MainPage() {
   }
 
   const postData = async (name: string) => {
+    if (!name.trim()) return;
+
     try{
       setIsLoading(true);
       const response = await fetch('https://assignment-todolist-api.vercel.app/api/annann5026/items', {
