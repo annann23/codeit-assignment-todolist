@@ -18,8 +18,8 @@ export default function ItemDetailPage() {
   const params = useParams();
   const router = useRouter();
   const itemId = params.itemId as string;
-  const [item, setItem] = useState<Item | null>(null);
-  const [originalItem, setOriginalItem] = useState<Item | null>(null);
+  const [item, setItem] = useState<Item | null>(null); //item 로컬 수정 데이터 저장
+  const [originalItem, setOriginalItem] = useState<Item | null>(null); // 변경 감시용 데이터, fetch response로 가져온 item 데이터만 저장
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -40,7 +40,7 @@ export default function ItemDetailPage() {
   }
 
 
-  const hasChanges = () => {  // 수정사항이 있는지 확인하는 함수
+  const hasChanges = () => {  // orininalItem과 item을 비교해서 수정사항이 있는지 확인하는 함수
     if (!originalItem || !item) return false;
     
     return (
@@ -79,14 +79,12 @@ export default function ItemDetailPage() {
     }
 
     try {
-      // FormData 생성 (multipart/form-data 형식)
       setIsLoading(true);
       const formData = new FormData();
       formData.append('image', file);
 
       const response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/images/upload`, {
         method: 'POST',
-        body: formData, // FormData 사용
         body: formData,
       });
 
@@ -106,7 +104,7 @@ export default function ItemDetailPage() {
     }
   };
 
-  const clickImageAddButton = () => {
+  const clickImageAddButton = () => { //이미지 업로드 버튼 클릭 시 input 실행
     fileInputRef.current?.click();
   };
 
