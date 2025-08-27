@@ -59,7 +59,7 @@ function TodoList({ items, onItemStatusChange }: TodoListProps) { //메인 페�
       </div>
       
       <div className="done-section">
-        <Image src={doneIcon} alt='done' className='done-icon' width={101} height={36}/>
+        <Image src={doneIcon} alt='done' className='done-icon' width={97} height={36}/>
         
         {items.filter(item => item.isCompleted).length === 0 ? (
           <div className="empty-state">
