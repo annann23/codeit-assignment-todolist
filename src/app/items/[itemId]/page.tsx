@@ -169,13 +169,14 @@ export default function ItemDetailPage() {
   }
 
   useEffect(() => {
+    setIsLoading(true); // 컴포넌트 마운트 시 즉시 로딩 상태 설정
     getItemDetail();
   }, []);
 
-  if (!item) return null;
   return (
     <div>
       <LoadingPage isLoading={isLoading} />
+      {item && (  
       <div className="item-detail-page">
         <div className="container">    
           <CheckboxItem
@@ -241,6 +242,7 @@ export default function ItemDetailPage() {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }
