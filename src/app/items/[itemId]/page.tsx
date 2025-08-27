@@ -39,11 +39,11 @@ export default function ItemDetailPage() { //상세 페이지 영역
     }
   }
 
-
   const hasChanges = () => {  // orininalItem과 item을 비교해서 수정사항이 있는지 확인하는 함수
     if (!originalItem || !item) return false;
     
     return (
+      originalItem.name !== item.name ||
       originalItem.imageUrl !== item.imageUrl ||
       originalItem.isCompleted !== item.isCompleted ||
       originalItem.memo !== item.memo
@@ -64,6 +64,15 @@ export default function ItemDetailPage() { //상세 페이지 영역
       setItem({
         ...item,
         isCompleted: newStatus
+      });
+    }
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => { //이름 수정 함수
+    if (item) {
+      setItem({
+        ...item,
+        name: e.target.value
       });
     }
   };
@@ -138,6 +147,7 @@ export default function ItemDetailPage() { //상세 페이지 영역
     try{
       setIsLoading(true);
       const updateData = {
+        name: item.name || "",
         memo: item.memo || "",
         imageUrl: item.imageUrl || "",
         isCompleted: Boolean(item.isCompleted)
@@ -181,13 +191,14 @@ export default function ItemDetailPage() { //상세 페이지 영역
         <div className="container">    
           <div className='item-content-wrapper'>
             <CheckboxItem //todo 이름
-              text={item?.name}
               className='item-detail-name'
               isLarge={true}
               isActive={item?.isCompleted}
               onClickItem={() => {}}
               onClickCheckbox={(e: React.MouseEvent) => handleStatusChange(!item.isCompleted)}
-            />
+            >
+              <input type="text" className='item-title' value={item?.name} onChange={handleNameChange} />
+            </CheckboxItem>
             <div className='content-top'>  
               <div className='item-image'> {/* 이미지 영역 */}
                 {item?.imageUrl ? (

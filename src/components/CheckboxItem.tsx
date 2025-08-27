@@ -8,7 +8,8 @@ interface CheckListProps {
   isLarge?: boolean;
   isActive?: boolean;
   className?: string;
-  text: string;
+  text?: string;
+  children?: React.ReactNode;
   onClickCheckbox?: (e: React.MouseEvent) => void;
   onClickItem?: (e: React.MouseEvent) => void;
 }
@@ -18,6 +19,7 @@ function CheckList({ // 공통적으로 쓰이는 체크박스 포함된 컴포�
   isActive = false,
   text = '',
   className,
+  children,
   onClickCheckbox,
   onClickItem
 }: CheckListProps) {
@@ -41,6 +43,7 @@ function CheckList({ // 공통적으로 쓰이는 체크박스 포함된 컴포�
         onClick={handleCheckboxClick}
         />
       <div className="item-title">{text}</div>
+      {children}
     </div>
   );
 }
