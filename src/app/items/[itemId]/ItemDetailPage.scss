@@ -9,142 +9,195 @@
   .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 102px;
+    padding: 24px;
     background-color: white;
-    height: 100%;  // 이제 제대로 작동
-
-    .item-detail-name {
-      margin-bottom: 24px;
-    }
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .item-content-wrapper {
-      display: flex;
       width: 100%;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 996px;
+      display: flex;
+      flex-direction: column;
       gap: 24px;
-
-      .item-memo {
-        font-size: 16px;
-        width: 588px;
-        height: 311px;
-        background-image: url("../../../assets/memo.png");
-        padding: 24px 16px;
-        box-sizing: border-box;
-
-        .item-memo-title {
+      
+      .content-top {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        
+        .item-memo {
           font-size: 16px;
-          font-weight: 800;
-          margin-bottom: 16px;
-          color: $amber800;
-          display: inline-block;
-          width: 100%;
-          text-align: center;
+          width: 588px;
+          height: 311px;
+          background-image: url("../../../assets/memo.png");
+          padding: 24px 16px;
+          box-sizing: border-box;
+
+          .item-memo-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: $amber800;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+          }
+
+          .item-memo-input {
+            width: 100%;
+            height: 100%;
+            resize: none;
+            background-color: transparent;
+            border: none;
+            outline: none;
+          }
         }
 
-        .item-memo-input {
-          width: 100%;
-          height: 100%;
-          resize: none;
-          background-color: transparent;
-          border: none;
-          outline: none;
+        .item-image {
+          width: 384px;
+
+          .image-empty-box {
+            width: 100%;
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23CBD5E1FF' stroke-width='4' stroke-dasharray='3%2c 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+            border-radius: 24px;
+            height: 311px;
+            width: 100%;
+            background-color: $gray100;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        
+            .image-add-button {
+              width: 64px;
+              height: 64px;
+              position: absolute;
+              bottom: 16px;
+              right: 16px;
+              background-color: $gray200;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+
+          .item-image-box {
+            width: 384px;
+            height: 311px;
+            border-radius: 24px;
+            position: relative;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+
+            .edit-button {
+              position: absolute;
+              bottom: 16px;
+              right: 16px;
+              width: 64px;
+              height: 64px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: rgba($gray900, 0.5);
+              border: 2px solid $gray900;
+              border-radius: 50%;
+              cursor: pointer;
+            }
+          }
         }
       }
 
-      .item-image {
-        width: 384px;
-
-        .image-empty-box {
-          width: 100%;
-          background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23CBD5E1FF' stroke-width='4' stroke-dasharray='3%2c 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-          border-radius: 24px;
-          height: 311px;
-          width: 100%;
-          background-color: $gray100;
-          position: relative;
+      .button-wrapper {
+        display: flex;
+        gap: 16px;
+        justify-content: flex-end;
+  
+        .button {
+          width: 168px;
           display: flex;
           align-items: center;
           justify-content: center;
-      
-          .image-add-button {
-            width: 64px;
-            height: 64px;
-            position: absolute;
-            bottom: 16px;
-            right: 16px;
-            background-color: $gray200;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          gap: 4px;
+  
+          .button-text {
+            position: relative;
+            font-size: 16px;
+            bottom: -0.1em;
           }
         }
-
-        .item-image-box {
-          width: 384px;
-          height: 311px;
-          border-radius: 24px;
-          position: relative;
-          background-repeat: no-repeat;
-          background-size: cover;
-          background-position: center;
-
-          .edit-button {
-            position: absolute;
-            bottom: 16px;
-            right: 16px;
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba($gray900, 0.5);
-            border: 2px solid $gray900;
-            border-radius: 50%;
+  
+        .edit-button {
+          background-color: $color-deactive;
+  
+          &.active {
             cursor: pointer;
+            background-color: $color-edit;
+          }
+        }
+  
+        .delete-button {
+          cursor: pointer;
+          background-color: $color-delete;
+          color: white;
+  
+          .delete-icon {
+            display: block;
+            transform: rotate(45deg);
           }
         }
       }
     }
+  }
+}
 
-    .button-wrapper {
-      display: flex;
+@media screen and (max-width: 744px){
+  .item-detail-page {
+    .container {
+      .item-content-wrapper {
+        .content-top {
+          flex-direction: column;
+
+          .item-image {
+            width: 100%;
+          }
+          
+          .item-memo {
+            width: 100%;
+          }
+        }
+
+        .button-wrapper {
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 375px){
+  .item-detail-page {
+    .container {
+      padding: 16px;
       gap: 16px;
-      justify-content: flex-end;
-      margin-top: 24px;
 
-      .button {
-        width: 168px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-
-        .button-text {
-          position: relative;
-          font-size: 16px;
-          bottom: -0.1em;
+      .item-content-wrapper {
+        .content-top {
+          gap: 16px;
         }
-      }
 
-      .edit-button {
-        background-color: $color-deactive;
-
-        &.active {
-          cursor: pointer;
-          background-color: $color-edit;
-        }
-      }
-
-      .delete-button {
-        cursor: pointer;
-        background-color: $color-delete;
-        color: white;
-
-        .delete-icon {
-          display: block;
-          transform: rotate(45deg);
+        .button-wrapper {
+          gap: 8px;
+  
+          .button {
+            width: 100%;
+          }
         }
       }
     }

@@ -18,7 +18,7 @@ html, body {
 }
 
 .main-page {
-  padding: 24px 0;
+  padding: 24px;
   display: flex;
   justify-content: center;
   
@@ -27,55 +27,79 @@ html, body {
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
   
-  .input-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 32px;
-    
-    .search-bar {
-      margin-bottom: 0;
-      margin-right: 16px;
-      width: 100%;
+    .input-section {
+      display: flex;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 16px;
       
-      .input-text {
+      .search-bar {
+        margin-bottom: 0;
         width: 100%;
-        border: none;
-        outline: none;
-        background: transparent;
-        font-size: 16px;
-        color: $gray900;
         
-        &::placeholder {
-          color: $gray500;
+        .input-text {
+          width: 100%;
+          border: none;
+          outline: none;
+          background: transparent;
+          font-size: 16px;
+          color: $gray900;
+          
+          &::placeholder {
+            color: $gray500;
+          }
+        }
+      }
+
+      .add-button {
+        width: 164px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 0;
+
+
+        &.active {
+          cursor: pointer;
+          background-color: $color-add;
+          color: white;
+        }
+        
+        .button-text {
+          font-size: 16px;
+          position: relative;
+          bottom: -0.1em;
         }
       }
     }
   }
+}
 
-  .add-button {
-    width: 164px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@media screen and (max-width: 375px){
+  .main-page {
+    padding: 16px;
 
-    &.active {
-      cursor: pointer;
-      background-color: $color-add;
-      color: white;
-    }
+    .container {
+      .input-section {
+        gap: 8px;
+        
+        .add-button {
+          width: 56px;
+          min-width: 56px;
+          height: 56px;
 
-    .plus-icon {
-      margin-right: 4px;
-    }
+          .button-text {
+            display: none;
+          }
 
-    .button-text {
-      font-size: 16px;
-      position: relative;
-      bottom: -0.1em;
+          .plus-icon {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
     }
   }
 }
-
-

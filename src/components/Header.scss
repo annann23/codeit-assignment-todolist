@@ -3,7 +3,7 @@
 .gnb {
   background: $white;
   border-bottom: 1px solid $gray200;
-  padding: 10px 0;
+  padding: 10px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,5 +15,15 @@
   .App-logo {
     height: 40px;
     width: auto;
+  }
+}
+
+@media screen and (max-width: 375px){
+  .gnb {
+    padding: 10px 16px;
+
+    .App-logo {
+      content: url('../assets/logo_small.svg');
+    }
   }
 }

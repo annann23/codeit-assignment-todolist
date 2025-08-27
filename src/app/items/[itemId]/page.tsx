@@ -179,66 +179,68 @@ export default function ItemDetailPage() {
       {item && (  
       <div className="item-detail-page">
         <div className="container">    
-          <CheckboxItem
-            text={item?.name}
-            className='item-detail-name'
-            isLarge={true}
-            isActive={item?.isCompleted}
-            onClickItem={() => {}}
-            onClickCheckbox={(e: React.MouseEvent) => handleStatusChange(!item.isCompleted)}
-          />
-          <div className='item-content-wrapper'>  
-            <div className='item-image'>
-              {item?.imageUrl ? (
-                <div className='item-image-box' style={{backgroundImage: `url(${item.imageUrl})`}}>
-                  <div className='edit-button'><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
-                </div>
-              ) : (
-                <div className='image-empty-box'>
-                  <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={imageUpload}
-                    style={{ display: 'none' }}
-                  />
-                  <button 
-                    className='image-add-button'
-                    onClick={clickImageAddButton}
-                    type="button"
-                  >
-                    <PlusIcon 
-                      width={18} 
-                      height={18} 
-                      strokeColor={colors.gray500}
-                      className='plus-icon'
+          <div className='item-content-wrapper'>
+            <CheckboxItem //todo name
+              text={item?.name}
+              className='item-detail-name'
+              isLarge={true}
+              isActive={item?.isCompleted}
+              onClickItem={() => {}}
+              onClickCheckbox={(e: React.MouseEvent) => handleStatusChange(!item.isCompleted)}
+            />
+            <div className='content-top'>  
+              <div className='item-image'>
+                {item?.imageUrl ? (
+                  <div className='item-image-box' style={{backgroundImage: `url(${item.imageUrl})`}}>
+                    <div className='edit-button'><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
+                  </div>
+                ) : (
+                  <div className='image-empty-box'>
+                    <Image src={imageIcon} alt='image-icon' width={64} height={64}/>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={imageUpload}
+                      style={{ display: 'none' }}
                     />
-                  </button>
-                </div>
-              )}
+                    <button 
+                      className='image-add-button'
+                      onClick={clickImageAddButton}
+                      type="button"
+                    >
+                      <PlusIcon 
+                        width={18} 
+                        height={18} 
+                        strokeColor={colors.gray500}
+                        className='plus-icon'
+                      />
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className='item-memo'>
+                <span className='item-memo-title'>Memo</span>
+                <textarea 
+                  className='item-memo-input' 
+                  value={item?.memo || ''}
+                  onChange={handleMemoChange}
+                />  
+              </div> 
             </div>
-            <div className='item-memo'>
-              <span className='item-memo-title'>Memo</span>
-              <textarea 
-                className='item-memo-input' 
-                value={item?.memo || ''}
-                onChange={handleMemoChange}
-              />  
-            </div> 
-          </div>
-          <div className="button-wrapper">
-            {/* 수정 완료 버튼 */}
-            <ShadeBox class={`edit-button button ${hasChanges() ? 'active' : ''}`} onClick={patchItem}>
-              <Image src={checkIcon} alt='check-icon' width={16} height={16}/>
-              <span className='button-text'>수정 완료</span>
-            </ShadeBox>
+            <div className="button-wrapper">
+              {/* 수정 완료 버튼 */}
+              <ShadeBox class={`edit-button button ${hasChanges() ? 'active' : ''}`} onClick={patchItem}>
+                <Image src={checkIcon} alt='check-icon' width={16} height={16}/>
+                <span className='button-text'>수정 완료</span>
+              </ShadeBox>
 
-            {/* 삭제 버튼 */}
-            <ShadeBox class='button delete-button' onClick={deleteItem}>
-              <PlusIcon className='delete-icon' width={16} height={16} strokeColor={colors.white}/>
-              <span className='button-text'>삭제하기</span>
-            </ShadeBox>
+              {/* 삭제 버튼 */}
+              <ShadeBox class='button delete-button' onClick={deleteItem}>
+                <PlusIcon className='delete-icon' width={16} height={16} strokeColor={colors.white}/>
+                <span className='button-text'>삭제하기</span>
+              </ShadeBox>
+            </div>
           </div>
         </div>
       </div>
