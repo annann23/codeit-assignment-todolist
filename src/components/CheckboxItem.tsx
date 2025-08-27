@@ -42,7 +42,7 @@ function CheckList({ // 공통적으로 쓰이는 체크박스 포함된 컴포�
         height={isLarge ? 32 : 20}
         onClick={handleCheckboxClick}
         />
-      <div className="item-title">{text}</div>
+      {text !== '' && <div className="item-title">{text}</div>}
       {children}
     </div>
   );

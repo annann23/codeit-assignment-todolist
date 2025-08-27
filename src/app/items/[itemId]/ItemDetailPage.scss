@@ -22,6 +22,19 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
+
+      .item-detail-name {
+        .item-title {
+          border: none;
+          background-color: transparent;
+          field-sizing: content; // 글자 길이에 맞춰 input text width 자동 조절
+          min-inline-size: 1ch; // min 1글자 길이 
+          max-inline-size: 70ch; // max 70글자 길이
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
       
       .content-top {
         display: flex;
