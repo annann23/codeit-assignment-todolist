@@ -59,7 +59,16 @@ export default function ItemDetailPage() {
     }
   };
 
-  const imageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStatusChange = (newStatus: boolean) => { //isCompleted 변경 함수
+    if (item) {
+      setItem({
+        ...item,
+        isCompleted: newStatus
+      });
+    }
+  };
+
+  const imageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => { //이미지 업로드 함수
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -114,6 +123,7 @@ export default function ItemDetailPage() {
       await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
         method: 'DELETE',
       });
+
       router.push('/');
     }catch(error){
       console.error('Error deleting item:', error);
@@ -124,25 +134,30 @@ export default function ItemDetailPage() {
   }
 
   async function patchItem() {
-    if (!item) return;
-    
+    if(!item || !hasChanges())return;
+
     try{
-      await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
       setIsLoading(true);
+      const updateData = {
+        memo: item.memo || "",
+        imageUrl: item.imageUrl || "",
+        isCompleted: Boolean(item.isCompleted)
+      };
+
+      let response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: item.name, 
-          memo: item.memo, 
-          imageUrl: item.imageUrl, 
-          isCompleted: item.isCompleted
-        }),
+        body: JSON.stringify(updateData),
       });
-      
-      // 수정 완료 후 원본 데이터 업데이트
-      setOriginalItem(item);
+
+      if(!response.ok){
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let data = await response.json();
+      setOriginalItem(data);
       
       alert('수정이 완료되었습니다!');
       router.push('/');
