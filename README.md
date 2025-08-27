@@ -53,7 +53,7 @@ src/
 ```
 
 ## API 엔드포인트
-# tenantId: annann5026(임시)
+### tenantId: annann5026(임시)
 
 - `GET /api/annann5026/items` - 할 일 목록 조회
 - `POST /api/annann5026/items` - 할 일 추가
