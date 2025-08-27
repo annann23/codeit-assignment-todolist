@@ -7,7 +7,7 @@ interface ShadeBoxProps {
   onClick?: () => void;
 }
 
-function ShadeBox({ // 공통적으로 쓰이는 그림자 버튼 컴포넌트
+function ShadeBox({ // 공통적으로 쓰이는 그림자 들어간 버튼 컴포넌트
   children,
   class: className,
   onClick

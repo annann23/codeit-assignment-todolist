@@ -14,7 +14,7 @@ import checkIcon from '@/assets/check.svg';
 import editIcon from '@/assets/edit.svg';
 import LoadingPage from '@/components/LoadingPage';
 
-export default function ItemDetailPage() {
+export default function ItemDetailPage() { //상세 페이지 영역
   const params = useParams();
   const router = useRouter();
   const itemId = params.itemId as string;
@@ -23,7 +23,7 @@ export default function ItemDetailPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   
-  async function getItemDetail() {
+  async function getItemDetail() { //item detail 데이터 가져오기
     try{
       setIsLoading(true);
       const response = await fetch(`https://assignment-todolist-api.vercel.app/api/annann5026/items/${itemId}`);
@@ -180,7 +180,7 @@ export default function ItemDetailPage() {
       <div className="item-detail-page">
         <div className="container">    
           <div className='item-content-wrapper'>
-            <CheckboxItem //todo name
+            <CheckboxItem //todo 이름
               text={item?.name}
               className='item-detail-name'
               isLarge={true}
@@ -189,7 +189,7 @@ export default function ItemDetailPage() {
               onClickCheckbox={(e: React.MouseEvent) => handleStatusChange(!item.isCompleted)}
             />
             <div className='content-top'>  
-              <div className='item-image'>
+              <div className='item-image'> {/* 이미지 영역 */}
                 {item?.imageUrl ? (
                   <div className='item-image-box' style={{backgroundImage: `url(${item.imageUrl})`}}>
                     <div className='edit-button'><Image src={editIcon} alt='edit-icon' width={24} height={24} /></div>
@@ -219,7 +219,7 @@ export default function ItemDetailPage() {
                   </div>
                 )}
               </div>
-              <div className='item-memo'>
+              <div className='item-memo'> {/* 메모 영역 */}
                 <span className='item-memo-title'>Memo</span>
                 <textarea 
                   className='item-memo-input' 

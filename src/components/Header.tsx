@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation';
 import logo from '../assets/logo.svg';
 import './Header.scss';
 
-export default function Header() {
+export default function Header() { //기본 gnb 컴포넌트
   const router = useRouter();
 
-  const handleLogoClick = () => {
+  const handleLogoClick = () => { //logo 클릭 시 홈으로 이동
     router.push('/');
   };
 

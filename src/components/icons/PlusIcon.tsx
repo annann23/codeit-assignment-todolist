@@ -7,7 +7,7 @@ interface PlusIconProps {
   className?: string;
 }
 
-const PlusIcon: React.FC<PlusIconProps> = ({ 
+const PlusIcon: React.FC<PlusIconProps> = ({ //stroke 색상 변경을 위해 plus 아이콘 컴포넌트로 생성
   width = 16, 
   height = 16, 
   strokeColor = 'currentColor',

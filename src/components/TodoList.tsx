@@ -19,7 +19,7 @@ interface TodoListProps {
   onItemStatusChange: (itemId: string, newStatus: boolean) => void;
 }
 
-function TodoList({ items, onItemStatusChange }: TodoListProps) {
+function TodoList({ items, onItemStatusChange }: TodoListProps) { //메인 페이지 검색창 하단 todo list 컴포넌트
   const router = useRouter();
 
   const handleItemClick = (itemId: string) => {
