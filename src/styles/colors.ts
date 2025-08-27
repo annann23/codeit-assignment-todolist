@@ -22,10 +22,10 @@ export const colors = {
   amber800: '#92400E',
   
   // Buttons
-  colorAdd: '#E2E8F0',
-  colorAddActive: '#7C3AED',
-  colorDelete: '#F43F5E',
-  colorEdit: '#BEF264',
+  buttonDeactive: '#E2E8F0',
+  buttonAdd: '#7C3AED',
+  buttonDelete: '#F43F5E',
+  buttonEdit: '#BEF264',
 } as const;
 
 // TypeScript 타입 정의
