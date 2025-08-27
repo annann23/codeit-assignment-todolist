@@ -9,6 +9,9 @@ import Image from 'next/image';
 import { Item } from '@/utill/types';
 import imageIcon from '@/assets/img_icon.svg';
 import CheckboxItem from '@/components/CheckboxItem';
+import ShadeBox from '@/components/ShadeBox';
+import checkIcon from '@/assets/check.svg';
+import plusIcon from '@/assets/plus.svg';
 
 export default function ItemDetailPage() {
   const params = useParams();
@@ -95,6 +98,16 @@ export default function ItemDetailPage() {
             <textarea className='item-memo-input' value={item?.memo}/>  
           </div> 
         </div>  
+        <div className='button-wrapper'>
+          <ShadeBox class='button edit-button' onClick={patchItem} backgroundColor={colors.buttonDeactive}>
+            <Image src={checkIcon} alt='check-icon' width={16} height={16}/>
+            <span className='button-text'>수정 완료</span>
+          </ShadeBox>
+          <ShadeBox class='button delete-button' onClick={deleteItem} backgroundColor={colors.buttonDelete} color={colors.white}>
+            <PlusIcon className='delete-icon' width={16} height={16} strokeColor={colors.white}/>
+            <span className='button-text'>삭제하기</span>
+          </ShadeBox>
+        </div>
       </div>
     </div>
   );
